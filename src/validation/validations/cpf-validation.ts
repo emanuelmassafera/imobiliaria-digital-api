@@ -10,7 +10,7 @@ export class CpfValidation implements Validation {
 
   validate (input: any): Error {
     if (input[this.fieldName]) {
-      const isValid = this.cpfValidator.isValidCpf(input[this.fieldName])
+      const isValid = this.cpfValidator.isValidCpf(String(input[this.fieldName]))
       if (!isValid) {
         return new InvalidParamError(this.fieldName)
       }
