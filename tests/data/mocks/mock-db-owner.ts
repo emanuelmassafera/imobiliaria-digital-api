@@ -1,4 +1,4 @@
-import { AddOwnerRepository, CheckOwnerByEmailRepository } from '@/data/protocols'
+import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository } from '@/data/protocols'
 import { mockOwnerModel } from '@/tests/domain/mocks'
 
 export class AddOwnerRepositorySpy implements AddOwnerRepository {
@@ -17,6 +17,16 @@ export class CheckOwnerByEmailRepositorySpy implements CheckOwnerByEmailReposito
 
   async checkByEmail (email: string): Promise<boolean> {
     this.email = email
+    return this.result
+  }
+}
+
+export class CheckOwnerByCpfRepositorySpy implements CheckOwnerByCpfRepository {
+  cpf: string
+  result = false
+
+  async checkByCpf (cpf: string): Promise<boolean> {
+    this.cpf = cpf
     return this.result
   }
 }
