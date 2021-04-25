@@ -1,4 +1,6 @@
-import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository } from '@/data/protocols'
+import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository, LoadOwnerByEmailRepository } from '@/data/protocols'
+
+import faker from 'faker'
 
 export class AddOwnerRepositorySpy implements AddOwnerRepository {
   params: AddOwnerRepository.Params
@@ -24,6 +26,20 @@ export class CheckOwnerByCpfRepositorySpy implements CheckOwnerByCpfRepository {
 
   async checkByCpf (cpf: string): Promise<boolean> {
     this.cpf = cpf
+    return this.result
+  }
+}
+
+export class LoadOwnerByEmailRepositorySpy implements LoadOwnerByEmailRepository {
+  email: string
+  result = {
+    id: faker.datatype.uuid(),
+    name: faker.name.findName(),
+    password: faker.internet.password()
+  }
+
+  async loadByEmail (email: string): Promise<LoadOwnerByEmailRepository.Result> {
+    this.email = email
     return this.result
   }
 }
