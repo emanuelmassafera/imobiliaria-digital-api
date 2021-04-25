@@ -1,4 +1,4 @@
-import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository, LoadOwnerByEmailRepository } from '@/data/protocols'
+import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository, LoadOwnerByEmailRepository, UpdateAccessTokenRepository } from '@/data/protocols'
 
 import faker from 'faker'
 
@@ -41,5 +41,15 @@ export class LoadOwnerByEmailRepositorySpy implements LoadOwnerByEmailRepository
   async loadByEmail (email: string): Promise<LoadOwnerByEmailRepository.Result> {
     this.email = email
     return this.result
+  }
+}
+
+export class UpdateAccessTokenRepositorySpy implements UpdateAccessTokenRepository {
+  id: string
+  token: string
+
+  async updateAccessToken (id: string, token: string): Promise<void> {
+    this.id = id
+    this.token = token
   }
 }
