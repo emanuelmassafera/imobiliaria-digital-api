@@ -1,5 +1,5 @@
 import { OwnerModel } from '@/domain/models'
-import { AddOwner } from '@/domain/usecases'
+import { AddOwner, Authentication } from '@/domain/usecases'
 
 import faker from 'faker'
 
@@ -38,4 +38,9 @@ export const mockOwnerModel = (): OwnerModel => ({
     complement: faker.random.word()
   },
   createdAt: faker.date.recent()
+})
+
+export const mockAuthenticationParams = (): Authentication.Params => ({
+  email: faker.internet.email(),
+  password: faker.internet.password()
 })
