@@ -1,11 +1,9 @@
 import { AddOwner } from '@/domain/usecases'
 
 export interface AddOwnerRepository {
-  add: (params: AddOwnerRepository.Params) => Promise<AddOwnerRepository.Result>
+  add: (params: AddOwnerRepository.Params) => Promise<void>
 }
 
 export namespace AddOwnerRepository {
   export type Params = AddOwner.Params
-
-  export type Result = AddOwner.Result
 }
