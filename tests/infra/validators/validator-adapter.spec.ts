@@ -41,21 +41,21 @@ describe('Validator Adapter', () => {
       email = faker.internet.email()
     })
 
-    test('Should call isValidEmail with correct value', () => {
+    test('Should call isEmail with correct value', () => {
       const sut = makeSut()
       const isEmailSpy = jest.spyOn(validator, 'isEmail')
       sut.isValidEmail(email)
       expect(isEmailSpy).toHaveBeenCalledWith(email)
     })
 
-    test('Should return false if isValidEmail returns false', () => {
+    test('Should return false if isEmail returns false', () => {
       const sut = makeSut()
       jest.spyOn(validator, 'isEmail').mockReturnValueOnce(false)
       const isValid = sut.isValidEmail(email)
       expect(isValid).toBe(false)
     })
 
-    test('Should return true if isValidEmail returns true', () => {
+    test('Should return true if isEmail returns true', () => {
       const sut = makeSut()
       const isValid = sut.isValidEmail(email)
       expect(isValid).toBe(true)
@@ -67,21 +67,21 @@ describe('Validator Adapter', () => {
       phoneNumber = faker.phone.phoneNumber()
     })
 
-    test('Should call isValidPhoneNumber with correct value', () => {
+    test('Should call isMobilePhone with correct value', () => {
       const sut = makeSut()
       const isMobilePhoneSpy = jest.spyOn(validator, 'isMobilePhone')
       sut.isValidPhoneNumber(phoneNumber)
       expect(isMobilePhoneSpy).toHaveBeenCalledWith(phoneNumber, 'pt-BR')
     })
 
-    test('Should return false if isValidPhoneNumber returns false', () => {
+    test('Should return false if isMobilePhone returns false', () => {
       const sut = makeSut()
       jest.spyOn(validator, 'isMobilePhone').mockReturnValueOnce(false)
       const isValid = sut.isValidPhoneNumber(phoneNumber)
       expect(isValid).toBe(false)
     })
 
-    test('Should return true if isValidPhoneNumber returns true', () => {
+    test('Should return true if isMobilePhone returns true', () => {
       const sut = makeSut()
       const isValid = sut.isValidPhoneNumber(phoneNumber)
       expect(isValid).toBe(true)
@@ -119,21 +119,21 @@ describe('Validator Adapter', () => {
       objectId = faker.datatype.uuid()
     })
 
-    test('Should call isValidObjectId with correct value', () => {
+    test('Should call isMongoId with correct value', () => {
       const sut = makeSut()
       const isValidObjectIdSpy = jest.spyOn(validator, 'isMongoId')
       sut.isObjectId(objectId)
       expect(isValidObjectIdSpy).toHaveBeenCalledWith(objectId)
     })
 
-    test('Should return false if isValidObjectId returns false', () => {
+    test('Should return false if isMongoId returns false', () => {
       const sut = makeSut()
       jest.spyOn(validator, 'isMongoId').mockReturnValueOnce(false)
       const isValid = sut.isObjectId(objectId)
       expect(isValid).toBe(false)
     })
 
-    test('Should return true if isValidObjectId returns true', () => {
+    test('Should return true if isMongoId returns true', () => {
       const sut = makeSut()
       const isValid = sut.isObjectId(objectId)
       expect(isValid).toBe(true)
