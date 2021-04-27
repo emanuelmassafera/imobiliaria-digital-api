@@ -8,7 +8,7 @@ export class ObjectIdValidation implements Validation {
     private readonly objectIdValidator: ObjectIdValidator
   ) {}
 
-  validate (input: any): Error {
+  async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
       const isValid = this.objectIdValidator.isObjectId(input[this.fieldName])
       if (!isValid) {

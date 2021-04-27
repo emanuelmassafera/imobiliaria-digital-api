@@ -10,21 +10,21 @@ const makeSut = (): RequiredFieldValidation => {
 }
 
 describe('RequiredField Validation', () => {
-  test('Should not return if field contains 0', () => {
+  test('Should not return if field contains 0', async () => {
     const sut = makeSut()
-    const error = sut.validate({ [field]: 0 })
+    const error = await sut.validate({ [field]: 0 })
     expect(error).toBeFalsy()
   })
 
-  test('Should not return if field is not null ', () => {
+  test('Should not return if field is not null ', async () => {
     const sut = makeSut()
-    const error = sut.validate({ [field]: faker.random.word() })
+    const error = await sut.validate({ [field]: faker.random.word() })
     expect(error).toBeFalsy()
   })
 
-  test('Should return a MissingParamError if validation fails', () => {
+  test('Should return a MissingParamError if validation fails', async () => {
     const sut = makeSut()
-    const error = sut.validate({ invalidField: faker.random.word() })
+    const error = await sut.validate({ invalidField: faker.random.word() })
     expect(error).toEqual(new MissingParamError(field))
   })
 })

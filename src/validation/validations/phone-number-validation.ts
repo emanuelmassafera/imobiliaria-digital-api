@@ -8,7 +8,7 @@ export class PhoneNumberValidation implements Validation {
     private readonly phoneNumberValidator: PhoneNumberValidator
   ) {}
 
-  validate (input: any): Error {
+  async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
       const isValid = this.phoneNumberValidator.isValidPhoneNumber(String(input[this.fieldName]))
       if (!isValid) {

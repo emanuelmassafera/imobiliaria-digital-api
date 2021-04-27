@@ -22,24 +22,26 @@ const makeSut = (): SutTypes => {
 }
 
 describe('StrongPassword Validation', () => {
-  test('Should call StrongPasswordValidator with correct value', () => {
+  test('Should call StrongPasswordValidator with correct value', async () => {
     const { sut, strongPasswordValidatorSpy } = makeSut()
     const password = faker.internet.password()
-    sut.validate({ [field]: password })
+    await sut.validate({ [field]: password })
     expect(strongPasswordValidatorSpy.password).toBe(password)
   })
 
-  test('Should return an InvalidParamError if StrongPasswordValidator returns false', () => {
+  test('Should return an InvalidParamError if StrongPasswordValidator returns false', async () => {
     const { sut, strongPasswordValidatorSpy } = makeSut()
     strongPasswordValidatorSpy.result = false
     const password = faker.internet.password()
-    const error = sut.validate({ [field]: password })
+    const error = await sut.validate({ [field]: password })
     expect(error).toEqual(new InvalidParamError(field))
   })
 
-  test('Should throw if StrongPasswordValidator throws', () => {
+  test('Should throw if StrongPasswordValidator throws', async () => {
     const { sut, strongPasswordValidatorSpy } = makeSut()
+    const password = faker.internet.password()
     jest.spyOn(strongPasswordValidatorSpy, 'isStrongPassword').mockImplementationOnce(throwError)
-    expect(sut.validate).toThrow()
+    const promise = sut.validate({ [field]: password })
+    await expect(promise).rejects.toThrow()
   })
 })

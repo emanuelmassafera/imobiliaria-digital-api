@@ -22,24 +22,26 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Int Validation', () => {
-  test('Should call IntValidator with correct value', () => {
+  test('Should call IntValidator with correct value', async () => {
     const { sut, intValidatorSpy } = makeSut()
     const number = faker.datatype.number()
-    sut.validate({ [field]: number })
+    await sut.validate({ [field]: number })
     expect(Number(intValidatorSpy.number)).toBe(number)
   })
 
-  test('Should return an InvalidParamError if IntValidator returns false', () => {
+  test('Should return an InvalidParamError if IntValidator returns false', async () => {
     const { sut, intValidatorSpy } = makeSut()
     intValidatorSpy.result = false
     const number = faker.datatype.number()
-    const error = sut.validate({ [field]: number })
+    const error = await sut.validate({ [field]: number })
     expect(error).toEqual(new InvalidParamError(field))
   })
 
-  test('Should throw if IntValidator throws', () => {
+  test('Should throw if IntValidator throws', async () => {
     const { sut, intValidatorSpy } = makeSut()
+    const number = faker.datatype.number()
     jest.spyOn(intValidatorSpy, 'isInt').mockImplementationOnce(throwError)
-    expect(sut.validate).toThrow()
+    const promise = sut.validate({ [field]: number })
+    await expect(promise).rejects.toThrow()
   })
 })

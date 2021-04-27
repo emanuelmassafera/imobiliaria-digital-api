@@ -22,24 +22,26 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Email Validation', () => {
-  test('Should call EmailValidator with correct value', () => {
+  test('Should call EmailValidator with correct value', async () => {
     const { sut, emailValidatorSpy } = makeSut()
     const email = faker.internet.email()
-    sut.validate({ [field]: email })
+    await sut.validate({ [field]: email })
     expect(emailValidatorSpy.email).toBe(email)
   })
 
-  test('Should return an InvalidParamError if EmailValidator returns false', () => {
+  test('Should return an InvalidParamError if EmailValidator returns false', async () => {
     const { sut, emailValidatorSpy } = makeSut()
     emailValidatorSpy.result = false
     const email = faker.internet.email()
-    const error = sut.validate({ [field]: email })
+    const error = await sut.validate({ [field]: email })
     expect(error).toEqual(new InvalidParamError(field))
   })
 
-  test('Should throw if EmailValidator throws', () => {
+  test('Should throw if EmailValidator throws', async () => {
     const { sut, emailValidatorSpy } = makeSut()
+    const email = faker.internet.email()
     jest.spyOn(emailValidatorSpy, 'isValidEmail').mockImplementationOnce(throwError)
-    expect(sut.validate).toThrow()
+    const promise = sut.validate({ [field]: email })
+    await expect(promise).rejects.toThrow()
   })
 })

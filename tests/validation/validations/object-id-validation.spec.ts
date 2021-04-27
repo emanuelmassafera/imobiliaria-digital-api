@@ -22,24 +22,26 @@ const makeSut = (): SutTypes => {
 }
 
 describe('ObjectId Validation', () => {
-  test('Should call ObjectIdValidator with correct value', () => {
+  test('Should call ObjectIdValidator with correct value', async () => {
     const { sut, objectIdValidatorSpy } = makeSut()
     const objectId = faker.datatype.uuid()
-    sut.validate({ [field]: objectId })
+    await sut.validate({ [field]: objectId })
     expect(objectIdValidatorSpy.objectId).toBe(objectId)
   })
 
-  test('Should return an InvalidParamError if ObjectIdValidator returns false', () => {
+  test('Should return an InvalidParamError if ObjectIdValidator returns false', async () => {
     const { sut, objectIdValidatorSpy } = makeSut()
     objectIdValidatorSpy.result = false
     const objectId = faker.datatype.uuid()
-    const error = sut.validate({ [field]: objectId })
+    const error = await sut.validate({ [field]: objectId })
     expect(error).toEqual(new InvalidParamError(field))
   })
 
-  test('Should throw if ObjectIdValidator throws', () => {
+  test('Should throw if ObjectIdValidator throws', async () => {
     const { sut, objectIdValidatorSpy } = makeSut()
+    const objectId = faker.datatype.uuid()
     jest.spyOn(objectIdValidatorSpy, 'isObjectId').mockImplementationOnce(throwError)
-    expect(sut.validate).toThrow()
+    const promise = sut.validate({ [field]: objectId })
+    await expect(promise).rejects.toThrow()
   })
 })

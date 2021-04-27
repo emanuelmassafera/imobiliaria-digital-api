@@ -4,7 +4,7 @@ export class ValidationSpy implements Validation {
   input: any
   error: Error = null
 
-  validate (input: any): Error {
+  async validate (input: any): Promise<Error> {
     this.input = input
     return this.error
   }

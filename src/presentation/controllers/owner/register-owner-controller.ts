@@ -12,7 +12,7 @@ export class RegisterOwnerController implements Controller {
 
   async handle (request: RegisterOwnerController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(request)
+      const error = await this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }

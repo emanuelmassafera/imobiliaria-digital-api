@@ -8,7 +8,7 @@ export class EmailValidation implements Validation {
     private readonly emailValidator: EmailValidator
   ) {}
 
-  validate (input: any): Error {
+  async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
       const isValid = this.emailValidator.isValidEmail(String(input[this.fieldName]))
       if (!isValid) {

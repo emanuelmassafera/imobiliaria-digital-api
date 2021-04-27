@@ -8,7 +8,7 @@ export class StrongPasswordValidation implements Validation {
     private readonly strongPasswordValidator: StrongPasswordValidator
   ) {}
 
-  validate (input: any): Error {
+  async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
       const isValid = this.strongPasswordValidator.isStrongPassword(String(input[this.fieldName]))
       if (!isValid) {

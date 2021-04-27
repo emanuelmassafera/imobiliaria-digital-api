@@ -22,24 +22,26 @@ const makeSut = (): SutTypes => {
 }
 
 describe('PhoneNumber Validation', () => {
-  test('Should call PhoneNumberValidator with correct value', () => {
+  test('Should call PhoneNumberValidator with correct value', async () => {
     const { sut, phoneNumberValidatorSpy } = makeSut()
     const phoneNumber = faker.phone.phoneNumber()
-    sut.validate({ [field]: phoneNumber })
+    await sut.validate({ [field]: phoneNumber })
     expect(phoneNumberValidatorSpy.phoneNumber).toBe(phoneNumber)
   })
 
-  test('Should return an InvalidParamError if PhoneNumberValidator returns false', () => {
+  test('Should return an InvalidParamError if PhoneNumberValidator returns false', async () => {
     const { sut, phoneNumberValidatorSpy } = makeSut()
     phoneNumberValidatorSpy.result = false
     const phoneNumber = faker.phone.phoneNumber()
-    const error = sut.validate({ [field]: phoneNumber })
+    const error = await sut.validate({ [field]: phoneNumber })
     expect(error).toEqual(new InvalidParamError(field))
   })
 
-  test('Should throw if PhoneNumberValidator throws', () => {
+  test('Should throw if PhoneNumberValidator throws', async () => {
     const { sut, phoneNumberValidatorSpy } = makeSut()
+    const phoneNumber = faker.phone.phoneNumber()
     jest.spyOn(phoneNumberValidatorSpy, 'isValidPhoneNumber').mockImplementationOnce(throwError)
-    expect(sut.validate).toThrow()
+    const promise = sut.validate({ [field]: phoneNumber })
+    await expect(promise).rejects.toThrow()
   })
 })
