@@ -1,4 +1,4 @@
-import { CpfValidator, EmailValidator, IntValidator, ObjectIdValidator, PhoneNumberValidator, StrongPasswordValidator } from '@/validation/protocols'
+import { CepValidator, CpfValidator, EmailValidator, IntValidator, ObjectIdValidator, PhoneNumberValidator, StrongPasswordValidator } from '@/validation/protocols'
 
 export class CpfValidatorSpy implements CpfValidator {
   document: string
@@ -56,6 +56,16 @@ export class StrongPasswordValidatorSpy implements StrongPasswordValidator {
 
   isStrongPassword (password: string): boolean {
     this.password = password
+    return this.result
+  }
+}
+
+export class CepValidatorSpy implements CepValidator {
+  cep: string
+  result = true
+
+  async isValidCep (cep: string): Promise<boolean> {
+    this.cep = cep
     return this.result
   }
 }
