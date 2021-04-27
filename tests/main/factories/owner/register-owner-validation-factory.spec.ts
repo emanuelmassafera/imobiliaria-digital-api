@@ -1,7 +1,7 @@
-import { ValidatorAdapter, CpfCnpjValidatorAdapter } from '@/infra/validators'
+import { ValidatorAdapter, CpfCnpjValidatorAdapter, CepPromiseAdapter } from '@/infra/validators'
 import { makeRegisterOwnerValidation } from '@/main/factories'
 import { Validation } from '@/presentation/protocols'
-import { ValidationComposite, RequiredFieldValidation, CompareFieldsValidation, EmailValidation, PhoneNumberValidation, StrongPasswordValidation, CpfValidation } from '@/validation/validations'
+import { ValidationComposite, RequiredFieldValidation, CompareFieldsValidation, EmailValidation, PhoneNumberValidation, StrongPasswordValidation, CpfValidation, CepValidation } from '@/validation/validations'
 
 jest.mock('@/validation/validations/validation-composite')
 
@@ -32,6 +32,7 @@ describe('RegisterOwnerValidation Factory', () => {
     validations.push(new PhoneNumberValidation('phoneNumber', new ValidatorAdapter()))
     validations.push(new StrongPasswordValidation('password', new ValidatorAdapter()))
     validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
+    validations.push(new CepValidation('cep', new CepPromiseAdapter()))
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })
