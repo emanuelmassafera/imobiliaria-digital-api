@@ -101,4 +101,26 @@ describe('OwnerMongoRepository', () => {
       expect(owner.accessToken).toBe(accessToken)
     })
   })
+
+  describe('loadByToken()', () => {
+    test('Should return null if loadByToken fails', async () => {
+      const sut = makeSut()
+      const accessToken = faker.datatype.uuid()
+      const owner = await sut.loadByToken(accessToken)
+      expect(owner).toBeNull()
+    })
+
+    test('Should return an owner on success', async () => {
+      const sut = makeSut()
+      const addOwnerParams = mockAddOwnerParams()
+      const accessToken = faker.datatype.uuid()
+      await ownerCollection.insertOne({
+        ...addOwnerParams,
+        accessToken
+      })
+      const owner = await sut.loadByToken(accessToken)
+      expect(owner).toBeTruthy()
+      expect(owner.id).toBeTruthy()
+    })
+  })
 })
