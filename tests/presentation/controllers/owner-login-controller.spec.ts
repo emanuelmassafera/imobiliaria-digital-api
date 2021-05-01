@@ -1,60 +1,37 @@
-import { CpfInUseError, EmailInUseError, MissingParamError, UserNotFoundError, WrongPasswordError } from '@/domain/errors'
-import { RegisterOwnerController } from '@/presentation/controllers'
+
+import { MissingParamError, UserNotFoundError, WrongPasswordError } from '@/domain/errors'
+import { OwnerLoginController } from '@/presentation/controllers'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
 import { throwError } from '@/tests/domain/mocks'
-import { AddOwnerSpy, AuthenticationSpy, ValidationSpy } from '@/tests/presentation/mocks'
+import { AuthenticationSpy, ValidationSpy } from '@/tests/presentation/mocks'
 
 import faker from 'faker'
-import MockDate from 'mockdate'
 
-const mockRequest = (): RegisterOwnerController.Request => {
+const mockRequest = (): OwnerLoginController.Request => {
   return {
-    name: faker.name.findName(),
     email: faker.internet.email(),
-    emailConfirmation: faker.internet.email(),
-    phoneNumber: faker.phone.phoneNumber(),
-    cpf: faker.datatype.uuid(),
-    password: faker.internet.password(),
-    passwordConfirmation: faker.internet.password(),
-    cep: faker.datatype.uuid(),
-    state: faker.address.state(),
-    city: faker.address.city(),
-    neighborhood: faker.random.word(),
-    street: faker.address.streetName(),
-    number: faker.datatype.number().toString(),
-    complement: faker.random.word()
+    password: faker.internet.password()
   }
 }
 
 type SutTypes = {
-  sut: RegisterOwnerController
+  sut: OwnerLoginController
   validationSpy: ValidationSpy
-  addOwnerSpy: AddOwnerSpy
   authenticationSpy: AuthenticationSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const addOwnerSpy = new AddOwnerSpy()
   const authenticationSpy = new AuthenticationSpy()
-  const sut = new RegisterOwnerController(validationSpy, addOwnerSpy, authenticationSpy)
+  const sut = new OwnerLoginController(validationSpy, authenticationSpy)
   return {
     sut,
     validationSpy,
-    addOwnerSpy,
     authenticationSpy
   }
 }
 
-describe('RegisterOwner Controller', () => {
-  beforeAll(() => {
-    MockDate.set(new Date())
-  })
-
-  afterAll(() => {
-    MockDate.reset()
-  })
-
+describe('OwnerLogin Controller', () => {
   test('Should call Validation with correct values', async () => {
     const { sut, validationSpy } = makeSut()
     const request = mockRequest()
@@ -72,54 +49,6 @@ describe('RegisterOwner Controller', () => {
   test('Should return 500 if Validation throws', async () => {
     const { sut, validationSpy } = makeSut()
     jest.spyOn(validationSpy, 'validate').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(serverError(new Error()))
-  })
-
-  test('Should call AddOwner with correct values', async () => {
-    const { sut, addOwnerSpy } = makeSut()
-    const request = mockRequest()
-    await sut.handle(request)
-    expect(addOwnerSpy.params).toEqual({
-      name: request.name,
-      email: request.email,
-      password: request.password,
-      cpf: request.cpf,
-      phoneNumber: request.phoneNumber,
-      address: {
-        cep: request.cep,
-        state: request.state,
-        city: request.city,
-        neighborhood: request.neighborhood,
-        street: request.street,
-        number: request.number,
-        complement: request.complement
-      },
-      createdAt: new Date()
-    })
-  })
-
-  test('Should return 403 if AddOwner throws an EmailInUseError', async () => {
-    const { sut, addOwnerSpy } = makeSut()
-    jest.spyOn(addOwnerSpy, 'add').mockImplementationOnce((): never => {
-      throw new EmailInUseError()
-    })
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
-  })
-
-  test('Should return 403 if AddOwner throws a CpfInUseError', async () => {
-    const { sut, addOwnerSpy } = makeSut()
-    jest.spyOn(addOwnerSpy, 'add').mockImplementationOnce((): never => {
-      throw new CpfInUseError()
-    })
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(forbidden(new CpfInUseError()))
-  })
-
-  test('Should return 500 if AddOwner throws an unknown error', async () => {
-    const { sut, addOwnerSpy } = makeSut()
-    jest.spyOn(addOwnerSpy, 'add').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
