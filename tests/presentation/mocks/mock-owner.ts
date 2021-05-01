@@ -1,4 +1,4 @@
-import { AddOwner, Authentication } from '@/domain/usecases'
+import { AddOwner, Authentication, LoadOwnerByToken } from '@/domain/usecases'
 
 import faker from 'faker'
 
@@ -19,6 +19,18 @@ export class AuthenticationSpy implements Authentication {
 
   async auth (params: Authentication.Params): Promise<Authentication.Result> {
     this.params = params
+    return this.result
+  }
+}
+
+export class LoadOwnerByTokenSpy implements LoadOwnerByToken {
+  accessToken: string
+  result = {
+    id: faker.datatype.uuid()
+  }
+
+  async load (accessToken: string): Promise<LoadOwnerByToken.Result> {
+    this.accessToken = accessToken
     return this.result
   }
 }
