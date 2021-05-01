@@ -15,24 +15,24 @@ describe('CpnjValidator Adapter', () => {
       document = faker.datatype.uuid()
     })
 
-    test('Should call isValid with correct value', () => {
+    test('Should call isValid with correct value', async () => {
       const sut = makeSut()
       const isValidSpy = jest.spyOn(cpf, 'isValid')
-      sut.isValidCpf(document)
+      await sut.isValidCpf(document)
       expect(isValidSpy).toHaveBeenCalledWith(document)
     })
 
-    test('Should return false if isValid returns false', () => {
+    test('Should return false if isValid returns false', async () => {
       const sut = makeSut()
       jest.spyOn(cpf, 'isValid').mockReturnValueOnce(false)
-      const isValid = sut.isValidCpf(document)
+      const isValid = await sut.isValidCpf(document)
       expect(isValid).toBe(false)
     })
 
-    test('Should return true if isValid returns true', () => {
+    test('Should return true if isValid returns true', async () => {
       const sut = makeSut()
       jest.spyOn(cpf, 'isValid').mockReturnValueOnce(true)
-      const isValid = sut.isValidCpf(document)
+      const isValid = await sut.isValidCpf(document)
       expect(isValid).toBe(true)
     })
   })

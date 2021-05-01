@@ -10,7 +10,7 @@ export class IntValidation implements Validation {
 
   async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
-      const isValid = this.intValidator.isInt(String(input[this.fieldName]))
+      const isValid = await this.intValidator.isInt(String(input[this.fieldName]))
       if (!isValid) {
         return new InvalidParamError(this.fieldName)
       }

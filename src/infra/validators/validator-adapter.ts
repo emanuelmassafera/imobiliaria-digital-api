@@ -3,23 +3,23 @@ import { EmailValidator, IntValidator, ObjectIdValidator, PhoneNumberValidator, 
 import validator from 'validator'
 
 export class ValidatorAdapter implements EmailValidator, PhoneNumberValidator, StrongPasswordValidator, ObjectIdValidator, IntValidator {
-  isValidEmail (email: string): boolean {
+  async isValidEmail (email: string): Promise<boolean> {
     return validator.isEmail(email)
   }
 
-  isValidPhoneNumber (phoneNumber: string): boolean {
+  async isValidPhoneNumber (phoneNumber: string): Promise<boolean> {
     return validator.isMobilePhone(phoneNumber, 'pt-BR')
   }
 
-  isStrongPassword (password: string): boolean {
+  async isStrongPassword (password: string): Promise<boolean> {
     return validator.isStrongPassword(password)
   }
 
-  isObjectId (objectId: any): boolean {
+  async isObjectId (objectId: any): Promise<boolean> {
     return validator.isMongoId(String(objectId))
   }
 
-  isInt (int: string): boolean {
+  async isInt (int: string): Promise<boolean> {
     return validator.isInt(int)
   }
 }

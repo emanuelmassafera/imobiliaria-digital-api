@@ -1,3 +1,3 @@
 export interface StrongPasswordValidator {
-  isStrongPassword: (password: string) => boolean
+  isStrongPassword: (password: string) => Promise<boolean>
 }

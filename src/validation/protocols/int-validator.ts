@@ -1,3 +1,3 @@
 export interface IntValidator {
-  isInt: (number: string) => boolean
+  isInt: (number: string) => Promise<boolean>
 }

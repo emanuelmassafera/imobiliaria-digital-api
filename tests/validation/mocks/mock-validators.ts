@@ -4,7 +4,7 @@ export class CpfValidatorSpy implements CpfValidator {
   document: string
   result = true
 
-  isValidCpf (document: string): boolean {
+  async isValidCpf (document: string): Promise<boolean> {
     this.document = document
     return this.result
   }
@@ -14,7 +14,7 @@ export class EmailValidatorSpy implements EmailValidator {
   email: string
   result = true
 
-  isValidEmail (email: string): boolean {
+  async isValidEmail (email: string): Promise<boolean> {
     this.email = email
     return this.result
   }
@@ -24,7 +24,7 @@ export class IntValidatorSpy implements IntValidator {
   number: string
   result = true
 
-  isInt (number: string): boolean {
+  async isInt (number: string): Promise<boolean> {
     this.number = number
     return this.result
   }
@@ -34,7 +34,7 @@ export class ObjectIdValidatorSpy implements ObjectIdValidator {
   objectId: string
   result = true
 
-  isObjectId (objectId: any): boolean {
+  async isObjectId (objectId: any): Promise<boolean> {
     this.objectId = objectId
     return this.result
   }
@@ -44,7 +44,7 @@ export class PhoneNumberValidatorSpy implements PhoneNumberValidator {
   phoneNumber: string
   result = true
 
-  isValidPhoneNumber (phoneNumber: string): boolean {
+  async isValidPhoneNumber (phoneNumber: string): Promise<boolean> {
     this.phoneNumber = phoneNumber
     return this.result
   }
@@ -54,7 +54,7 @@ export class StrongPasswordValidatorSpy implements StrongPasswordValidator {
   password: string
   result = true
 
-  isStrongPassword (password: string): boolean {
+  async isStrongPassword (password: string): Promise<boolean> {
     this.password = password
     return this.result
   }

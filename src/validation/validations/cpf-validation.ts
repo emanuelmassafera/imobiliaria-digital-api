@@ -10,7 +10,7 @@ export class CpfValidation implements Validation {
 
   async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
-      const isValid = this.cpfValidator.isValidCpf(String(input[this.fieldName]))
+      const isValid = await this.cpfValidator.isValidCpf(String(input[this.fieldName]))
       if (!isValid) {
         return new InvalidParamError(this.fieldName)
       }

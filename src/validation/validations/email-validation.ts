@@ -10,7 +10,7 @@ export class EmailValidation implements Validation {
 
   async validate (input: any): Promise<Error> {
     if (input[this.fieldName]) {
-      const isValid = this.emailValidator.isValidEmail(String(input[this.fieldName]))
+      const isValid = await this.emailValidator.isValidEmail(String(input[this.fieldName]))
       if (!isValid) {
         return new InvalidParamError(this.fieldName)
       }

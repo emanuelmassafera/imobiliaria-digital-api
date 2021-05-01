@@ -7,7 +7,7 @@ export class RequiredFieldValidation implements Validation {
   async validate (input: any): Promise<Error> {
     if (input[this.fieldName] !== 0) {
       if (!input[this.fieldName]) {
-        return await Promise.resolve(new MissingParamError(this.fieldName))
+        return new MissingParamError(this.fieldName)
       }
     }
   }

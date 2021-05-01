@@ -1,3 +1,3 @@
 export interface CpfValidator {
-  isValidCpf: (document: string) => boolean
+  isValidCpf: (document: string) => Promise<boolean>
 }

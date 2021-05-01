@@ -1,3 +1,3 @@
 export interface PhoneNumberValidator {
-  isValidPhoneNumber: (phoneNumber: string) => boolean
+  isValidPhoneNumber: (phoneNumber: string) => Promise<boolean>
 }
