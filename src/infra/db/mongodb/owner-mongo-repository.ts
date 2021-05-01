@@ -1,9 +1,9 @@
-import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository, LoadOwnerByEmailRepository, UpdateAccessTokenRepository } from '@/data/protocols/db'
+import { AddOwnerRepository, CheckOwnerByCpfRepository, CheckOwnerByEmailRepository, LoadOwnerByEmailRepository, LoadOwnerByTokenRepository, UpdateAccessTokenRepository } from '@/data/protocols/db'
 import { MongoHelper } from '@/infra/db'
 
 import { ObjectId } from 'mongodb'
 
-export class OwnerMongoRepository implements AddOwnerRepository, CheckOwnerByEmailRepository, CheckOwnerByCpfRepository, LoadOwnerByEmailRepository, UpdateAccessTokenRepository {
+export class OwnerMongoRepository implements AddOwnerRepository, CheckOwnerByEmailRepository, CheckOwnerByCpfRepository, LoadOwnerByEmailRepository, UpdateAccessTokenRepository, LoadOwnerByTokenRepository {
   async add (params: AddOwnerRepository.Params): Promise<void> {
     const ownerCollection = await MongoHelper.getCollection('owners')
     await ownerCollection.insertOne(params)
@@ -56,5 +56,17 @@ export class OwnerMongoRepository implements AddOwnerRepository, CheckOwnerByEma
         accessToken: token
       }
     })
+  }
+
+  async loadByToken (accessToken: string): Promise<LoadOwnerByTokenRepository.Result> {
+    const ownerCollection = await MongoHelper.getCollection('owners')
+    const owner = await ownerCollection.findOne({
+      accessToken
+    }, {
+      projection: {
+        _id: 1
+      }
+    })
+    return owner ? MongoHelper.map(owner) : null
   }
 }
