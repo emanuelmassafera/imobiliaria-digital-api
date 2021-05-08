@@ -100,4 +100,20 @@ describe('Property Routes', () => {
         .expect(200)
     })
   })
+
+  describe('GET /owners/properties', () => {
+    test('Should return 401 on load properties without accessToken', async () => {
+      await request(app)
+        .get('/api/owners/properties')
+        .expect(401)
+    })
+
+    test('Should return 204 on load properties success', async () => {
+      const { accessToken } = await mockAccessToken()
+      await request(app)
+        .get('/api/owners/properties')
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
+  })
 })
