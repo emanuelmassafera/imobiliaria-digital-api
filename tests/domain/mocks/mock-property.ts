@@ -57,3 +57,8 @@ export const mockAddPropertyParams = (): AddProperty.Params => ({
   status: faker.random.word(),
   createdAt: faker.date.recent()
 })
+
+export const mockPropertyModels = (): PropertyModel[] => [
+  mockPropertyModel(),
+  mockPropertyModel()
+]
