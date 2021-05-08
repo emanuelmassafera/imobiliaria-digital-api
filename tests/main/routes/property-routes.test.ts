@@ -116,4 +116,12 @@ describe('Property Routes', () => {
         .expect(204)
     })
   })
+
+  describe('GET /properties', () => {
+    test('Should return 204 on load properties success', async () => {
+      await request(app)
+        .get('/api/properties')
+        .expect(204)
+    })
+  })
 })
