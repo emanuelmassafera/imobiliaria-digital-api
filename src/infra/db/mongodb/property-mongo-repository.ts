@@ -1,9 +1,9 @@
-import { AddPropertyRepository, LoadPropertiesRepository } from '@/data/protocols/db'
+import { AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository } from '@/data/protocols/db'
 import { MongoHelper, QueryBuilder } from '@/infra/db'
 
 import { ObjectId } from 'mongodb'
 
-export class PropertyMongoRepository implements AddPropertyRepository, LoadPropertiesRepository {
+export class PropertyMongoRepository implements AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository {
   async add (params: AddPropertyRepository.Params): Promise<AddPropertyRepository.Result> {
     const propertyCollection = await MongoHelper.getCollection('properties')
     const result = await propertyCollection.insertOne(params)
@@ -64,5 +64,29 @@ export class PropertyMongoRepository implements AddPropertyRepository, LoadPrope
 
     const properties = await propertyCollection.aggregate(queryBuilder.query).toArray()
     return MongoHelper.mapCollection(properties)
+  }
+
+  async loadPropertyById (params: LoadPropertyByIdRepository.Params): Promise<LoadPropertyByIdRepository.Result> {
+    const propertyCollection = await MongoHelper.getCollection('properties')
+    const queryBuilder = new QueryBuilder()
+
+    queryBuilder.match({
+      _id: new ObjectId(params.propertyId)
+    })
+
+    if (params.ownerId) {
+      queryBuilder.match({
+        ownerId: new ObjectId(params.ownerId)
+      })
+    }
+
+    if (params.active) {
+      queryBuilder.match({
+        status: 'active'
+      })
+    }
+
+    const properties = await propertyCollection.aggregate(queryBuilder.query).toArray()
+    return properties.length ? MongoHelper.map(properties[0]) : null
   }
 }
