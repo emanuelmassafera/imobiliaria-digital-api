@@ -2,7 +2,7 @@
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import app from '@/main/config/app'
 import env from '@/main/config/env'
-import { mockAddOwnerParams } from '@/tests/domain/mocks'
+import { mockAddOwnerParams, mockAddPropertyParams } from '@/tests/domain/mocks'
 
 import { sign } from 'jsonwebtoken'
 import { Collection, ObjectId } from 'mongodb'
@@ -114,6 +114,27 @@ describe('Property Routes', () => {
         .get('/api/owners/properties')
         .set('x-access-token', accessToken)
         .expect(204)
+    })
+  })
+
+  describe('GET /owners/properties/:propertyId', () => {
+    test('Should return 401 on load property by id without accessToken', async () => {
+      await request(app)
+        .get('/api/owners/properties/any_id')
+        .expect(401)
+    })
+
+    test('Should return 200 on load property by id success', async () => {
+      const { accessToken, id } = await mockAccessToken()
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: id
+      })
+      await request(app)
+        .get(`/api/owners/properties/${res.ops[0]._id}`)
+        .set('x-access-token', accessToken)
+        .expect(200)
     })
   })
 
