@@ -145,4 +145,17 @@ describe('Property Routes', () => {
         .expect(204)
     })
   })
+
+  describe('GET /properties/:propertyId', () => {
+    test('Should return 200 on load property by id success', async () => {
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        status: 'active'
+      })
+      await request(app)
+        .get(`/api/properties/${res.ops[0]._id}`)
+        .expect(200)
+    })
+  })
 })
