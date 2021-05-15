@@ -1,4 +1,4 @@
-import { AddPropertyRepository, LoadPropertiesRepository } from '@/data/protocols'
+import { AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository } from '@/data/protocols'
 import { mockPropertyModel, mockPropertyModels } from '@/tests/domain/mocks'
 
 export class AddPropertyRepositorySpy implements AddPropertyRepository {
@@ -16,6 +16,16 @@ export class LoadPropertiesRepositorySpy implements LoadPropertiesRepository {
   result = mockPropertyModels()
 
   async loadProperties (params: LoadPropertiesRepository.Params): Promise<LoadPropertiesRepository.Result> {
+    this.params = params
+    return this.result
+  }
+}
+
+export class LoadPropertyByIdRepositorySpy implements LoadPropertyByIdRepository {
+  params: LoadPropertyByIdRepository.Params
+  result = mockPropertyModel()
+
+  async loadPropertyById (params: LoadPropertyByIdRepository.Params): Promise<LoadPropertyByIdRepository.Result> {
     this.params = params
     return this.result
   }
