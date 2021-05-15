@@ -1,5 +1,5 @@
 import { PropertyModel } from '@/domain/models'
-import { AddProperty, LoadProperties } from '@/domain/usecases'
+import { AddProperty, LoadProperties, LoadPropertyById } from '@/domain/usecases'
 
 import faker from 'faker'
 
@@ -71,5 +71,11 @@ export const mockLoadPropertiesParams = (): LoadProperties.Params => ({
   city: faker.address.city(),
   neighborhood: faker.random.word(),
   minimumOfBedrooms: faker.datatype.number(),
+  active: faker.datatype.boolean()
+})
+
+export const mockLoadPropertyByIdParams = (): LoadPropertyById.Params => ({
+  propertyId: faker.datatype.uuid(),
+  ownerId: faker.datatype.uuid(),
   active: faker.datatype.boolean()
 })
