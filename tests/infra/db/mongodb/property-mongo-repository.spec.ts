@@ -202,4 +202,78 @@ describe('PropertyMongoRepository', () => {
       ])
     })
   })
+
+  describe('loadPropertyById()', () => {
+    test('Should return null if there is no property with the provided id', async () => {
+      const sut = makeSut()
+      const addOwnerParams = mockAddOwnerParams()
+      const owner = await ownerCollection.insertOne(addOwnerParams)
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: owner.ops[0]._id,
+        status: 'active'
+      })
+      await propertyCollection.deleteOne({ _id: res.ops[0]._id })
+      const property = await sut.loadPropertyById({
+        propertyId: res.ops[0]._id,
+        ownerId: owner.ops[0]._id,
+        active: true
+      })
+      expect(property).toBeNull()
+    })
+
+    test('Should return null if there is no property with the provided ownerId', async () => {
+      const sut = makeSut()
+      const addOwnerParams = mockAddOwnerParams()
+      const owner = await ownerCollection.insertOne(addOwnerParams)
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        status: 'active'
+      })
+      const property = await sut.loadPropertyById({
+        propertyId: res.ops[0]._id,
+        ownerId: owner.ops[0]._id,
+        active: true
+      })
+      expect(property).toBeNull()
+    })
+
+    test('Should return null if there is no property with active status', async () => {
+      const sut = makeSut()
+      const addOwnerParams = mockAddOwnerParams()
+      const owner = await ownerCollection.insertOne(addOwnerParams)
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: owner.ops[0]._id,
+        status: 'paused'
+      })
+      const property = await sut.loadPropertyById({
+        propertyId: res.ops[0]._id,
+        ownerId: owner.ops[0]._id,
+        active: true
+      })
+      expect(property).toBeNull()
+    })
+
+    test('Should return the property that matches with the provided filters', async () => {
+      const sut = makeSut()
+      const addOwnerParams = mockAddOwnerParams()
+      const owner = await ownerCollection.insertOne(addOwnerParams)
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: owner.ops[0]._id,
+        status: 'active'
+      })
+      const property = await sut.loadPropertyById({
+        propertyId: res.ops[0]._id,
+        ownerId: owner.ops[0]._id,
+        active: true
+      })
+      expect(property).toEqual(MongoHelper.map(res.ops[0]))
+    })
+  })
 })
