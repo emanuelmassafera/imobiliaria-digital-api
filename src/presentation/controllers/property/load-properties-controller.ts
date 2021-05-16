@@ -15,7 +15,7 @@ export class LoadPropertiesController implements Controller {
         state: request.state,
         city: request.city,
         neighborhood: request.neighborhood,
-        minimumOfBedrooms: request.minimumOfBedrooms,
+        minimumOfBedrooms: Number(request.minimumOfBedrooms),
         active: true
       })
 
@@ -33,6 +33,6 @@ export namespace LoadPropertiesController {
     state?: string
     city?: string
     neighborhood?: string
-    minimumOfBedrooms?: number
+    minimumOfBedrooms?: string
   }
 }

@@ -16,7 +16,7 @@ export class LoadOwnerPropertiesController implements Controller {
         state: request.state,
         city: request.city,
         neighborhood: request.neighborhood,
-        minimumOfBedrooms: request.minimumOfBedrooms,
+        minimumOfBedrooms: Number(request.minimumOfBedrooms),
         active: false
       })
 
@@ -35,6 +35,6 @@ export namespace LoadOwnerPropertiesController {
     state?: string
     city?: string
     neighborhood?: string
-    minimumOfBedrooms?: number
+    minimumOfBedrooms?: string
   }
 }

@@ -13,7 +13,7 @@ const mockRequest = (): LoadPropertiesController.Request => {
     state: faker.address.state(),
     city: faker.address.city(),
     neighborhood: faker.random.word(),
-    minimumOfBedrooms: faker.datatype.number()
+    minimumOfBedrooms: faker.datatype.number().toString()
   }
 }
 
@@ -50,7 +50,7 @@ describe('LoadProperties Controller', () => {
       state: request.state,
       city: request.city,
       neighborhood: request.neighborhood,
-      minimumOfBedrooms: request.minimumOfBedrooms,
+      minimumOfBedrooms: Number(request.minimumOfBedrooms),
       active: true
     })
   })
