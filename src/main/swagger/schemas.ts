@@ -1,6 +1,7 @@
 import {
   accessTokenSchema,
   addPropertyParamsSchema,
+  updatePropertyParamsSchema,
   errorSchema,
   loginParamsSchema,
   propertiesSchema,
@@ -11,6 +12,7 @@ import {
 export default {
   accessToken: accessTokenSchema,
   addPropertyParams: addPropertyParamsSchema,
+  updatePropertyParams: updatePropertyParamsSchema,
   error: errorSchema,
   loginParams: loginParamsSchema,
   properties: propertiesSchema,
