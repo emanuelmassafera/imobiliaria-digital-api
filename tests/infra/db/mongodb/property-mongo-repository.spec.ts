@@ -276,4 +276,24 @@ describe('PropertyMongoRepository', () => {
       expect(property).toEqual(MongoHelper.map(res.ops[0]))
     })
   })
+
+  describe('removeProperty()', () => {
+    test('Should remove a property on success', async () => {
+      const sut = makeSut()
+      const owner = await ownerCollection.insertOne(mockAddOwnerParams())
+      const property = await propertyCollection.insertOne({
+        ...mockAddPropertyParams(),
+        ownerId: owner.ops[0]._id
+      })
+      await sut.removeProperty({
+        propertyId: property.ops[0]._id,
+        ownerId: owner.ops[0]._id
+      })
+      const foundProperty = await propertyCollection.findOne({
+        _id: property.ops[0]._id,
+        ownerId: owner.ops[0]._id
+      })
+      expect(foundProperty).toBeNull()
+    })
+  })
 })
