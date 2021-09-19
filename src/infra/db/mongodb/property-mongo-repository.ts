@@ -1,9 +1,9 @@
-import { AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository, RemovePropertyRepository } from '@/data/protocols/db'
+import { AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository, RemovePropertyRepository, UpdatePropertyRepository } from '@/data/protocols/db'
 import { MongoHelper, QueryBuilder } from '@/infra/db'
 
 import { ObjectId } from 'mongodb'
 
-export class PropertyMongoRepository implements AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository, RemovePropertyRepository {
+export class PropertyMongoRepository implements AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository, RemovePropertyRepository, UpdatePropertyRepository {
   async add (params: AddPropertyRepository.Params): Promise<AddPropertyRepository.Result> {
     const propertyCollection = await MongoHelper.getCollection('properties')
     const result = await propertyCollection.insertOne(params)
@@ -96,5 +96,31 @@ export class PropertyMongoRepository implements AddPropertyRepository, LoadPrope
       _id: new ObjectId(params.propertyId),
       ownerId: new ObjectId(params.ownerId)
     })
+  }
+
+  async update (params: UpdatePropertyRepository.Params): Promise<UpdatePropertyRepository.Result> {
+    const propertyCollection = await MongoHelper.getCollection('properties')
+
+    const { propertyId, ownerId, ...values } = params
+    let attributesToBeUpdated = {}
+    for (const [key, value] of Object.entries(values)) {
+      if (value) {
+        attributesToBeUpdated = {
+          ...attributesToBeUpdated,
+          [key]: value
+        }
+      }
+    }
+
+    const updatedProperty = await propertyCollection.findOneAndUpdate({
+      _id: new ObjectId(params.propertyId),
+      ownerId: new ObjectId(params.ownerId)
+    }, {
+      $set: attributesToBeUpdated
+    }, {
+      returnOriginal: false
+    })
+
+    return updatedProperty.value && MongoHelper.map(updatedProperty.value)
   }
 }
