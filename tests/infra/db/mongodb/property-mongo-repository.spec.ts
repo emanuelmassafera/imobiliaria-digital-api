@@ -1,5 +1,5 @@
 import { MongoHelper, PropertyMongoRepository } from '@/infra/db'
-import { mockAddOwnerParams, mockAddPropertyParams } from '@/tests/domain/mocks'
+import { mockAddOwnerParams, mockAddPropertyParams, mockUpdatePropertyParams } from '@/tests/domain/mocks'
 
 import MockDate from 'mockdate'
 import { Collection } from 'mongodb'
@@ -294,6 +294,24 @@ describe('PropertyMongoRepository', () => {
         ownerId: owner.ops[0]._id
       })
       expect(foundProperty).toBeNull()
+    })
+  })
+
+  describe('update()', () => {
+    test('Should update a property on success', async () => {
+      const sut = makeSut()
+      const owner = await ownerCollection.insertOne(mockAddOwnerParams())
+      const addPropertyParams = mockAddPropertyParams()
+      const property = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: owner.ops[0]._id
+      })
+      expect(property.ops[0].type).toBe(addPropertyParams.type)
+      expect(property.ops[0].price).toBe(addPropertyParams.price)
+      const updatedPropertyParams = mockUpdatePropertyParams()
+      const updatedProperty = await sut.update({ ...updatedPropertyParams, ownerId: owner.ops[0]._id, propertyId: property.ops[0]._id })
+      expect(updatedProperty.type).toBe(updatedPropertyParams.type)
+      expect(updatedProperty.price).toBe(updatedPropertyParams.price)
     })
   })
 })
