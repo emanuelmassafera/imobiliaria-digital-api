@@ -138,6 +138,27 @@ describe('Property Routes', () => {
     })
   })
 
+  describe('DELETE /owners/properties/:propertyId', () => {
+    test('Should return 401 on remove property without accessToken', async () => {
+      await request(app)
+        .delete('/api/owners/properties/any_id')
+        .expect(401)
+    })
+
+    test('Should return 204 on remove property success', async () => {
+      const { accessToken, id } = await mockAccessToken()
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: id
+      })
+      await request(app)
+        .delete(`/api/owners/properties/${res.ops[0]._id}`)
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
+  })
+
   describe('GET /properties', () => {
     test('Should return 204 on load properties success', async () => {
       await request(app)
