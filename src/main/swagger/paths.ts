@@ -1,7 +1,7 @@
 import {
   addPropertyPath,
   loadOwnerPropertiesPath,
-  loadOwnerPropertyByIdPath,
+  ownerPropertyByIdPath,
   loadPropertiesPath,
   loadPropertyByIdPath,
   ownerLoginPath,
@@ -14,7 +14,7 @@ export default {
 
   '/owners/properties/add': addPropertyPath,
   '/owners/properties': loadOwnerPropertiesPath,
-  '/owners/properties/{propertyId}': loadOwnerPropertyByIdPath,
+  '/owners/properties/{propertyId}': ownerPropertyByIdPath,
   '/properties': loadPropertiesPath,
   '/properties/{propertyId}': loadPropertyByIdPath
 }

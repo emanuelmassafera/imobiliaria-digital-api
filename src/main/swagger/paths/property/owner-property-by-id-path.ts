@@ -1,4 +1,4 @@
-export const loadOwnerPropertyByIdPath = {
+export const ownerPropertyByIdPath = {
   get: {
     security: [{
       apiKeyAuth: []
@@ -26,6 +26,41 @@ export const loadOwnerPropertyByIdPath = {
           }
         }
       },
+      204: {
+        $ref: '#/components/noContent'
+      },
+      400: {
+        $ref: '#/components/badRequest'
+      },
+      401: {
+        $ref: '#/components/unauthorized'
+      },
+      404: {
+        $ref: '#/components/notFound'
+      },
+      500: {
+        $ref: '#/components/serverError'
+      }
+    }
+  },
+
+  delete: {
+    security: [{
+      apiKeyAuth: []
+    }],
+    tags: ['Properties'],
+    summary: 'Removes the owner property with the provided id',
+    description: 'This route can be performed only by owners',
+    parameters: [{
+      in: 'path',
+      name: 'propertyId',
+      description: 'Unique identifier of the property',
+      required: true,
+      schema: {
+        type: 'string'
+      }
+    }],
+    responses: {
       204: {
         $ref: '#/components/noContent'
       },
