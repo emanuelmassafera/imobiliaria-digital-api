@@ -1,4 +1,4 @@
-import { AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository, RemovePropertyRepository } from '@/data/protocols'
+import { AddPropertyRepository, LoadPropertiesRepository, LoadPropertyByIdRepository, RemovePropertyRepository, UpdatePropertyRepository } from '@/data/protocols'
 import { mockPropertyModel, mockPropertyModels } from '@/tests/domain/mocks'
 
 export class AddPropertyRepositorySpy implements AddPropertyRepository {
@@ -36,5 +36,15 @@ export class RemovePropertyRepositorySpy implements RemovePropertyRepository {
 
   async removeProperty (params: RemovePropertyRepository.Params): Promise<RemovePropertyRepository.Result> {
     this.params = params
+  }
+}
+
+export class UpdatePropertyRepositorySpy implements UpdatePropertyRepository {
+  params: UpdatePropertyRepository.Params
+  result: UpdatePropertyRepository.Result = mockPropertyModel()
+
+  async update (params: UpdatePropertyRepository.Params): Promise<UpdatePropertyRepository.Result> {
+    this.params = params
+    return this.result
   }
 }
