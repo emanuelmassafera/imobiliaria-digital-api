@@ -63,6 +63,7 @@ Swagger documentation can be accessed via the [link](https://imobiliaria-digital
 - **[Add Property](./requirements/property/add-property.md)**
 - **[Load Owner Properties](./requirements/property/load-owner-properties.md)**
 - **[Load Owner Property By Id](./requirements/property/load-owner-property-by-id.md)**
+- **[Remove Owner Property](./requirements/property/remove-owner-property.md)**
 - **[Load Properties](./requirements/property/load-properties.md)**
 - **[Load Property By Id](./requirements/property/load-property-by-id.md)**
 
