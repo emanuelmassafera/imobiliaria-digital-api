@@ -14,5 +14,5 @@
 1. ✅ Returns error **404** if the API does not exist
 2. ✅ Returns error **401** if the user is not an owner
 3. ✅ Returns error **400** if propertyId is not provided
-4. ✅ Returns error **400** if propertyId fields is not an ObjectId
+4. ✅ Returns error **400** if propertyId field is not an ObjectId
 5. ✅ Returns error **500** if get an error when trying to load the property
