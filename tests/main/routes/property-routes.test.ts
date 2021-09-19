@@ -138,6 +138,71 @@ describe('Property Routes', () => {
     })
   })
 
+  describe('PUT /owners/properties/:propertyId', () => {
+    test('Should return 401 on update property without accessToken', async () => {
+      await request(app)
+        .put('/api/owners/properties/any_id')
+        .send({
+          type: 'any_type',
+          availableTo: 'any_available_to',
+          price: 0,
+          condominium: 0,
+          iptu: 0,
+          cep: '69305-380',
+          state: 'any_state',
+          city: 'any_city',
+          neighborhood: 'any_neighborhood',
+          number: 'any_number',
+          street: 'any_street',
+          complement: 'any_complement',
+          description: 'any_description',
+          dimensions: 0,
+          numberOfBedrooms: 0,
+          numberOfBathrooms: 0,
+          numberOfParkingSpaces: 0,
+          images: ['any_image'],
+          additionalInformation: 'any_additional_information',
+          status: 'any_status'
+        })
+        .expect(401)
+    })
+
+    test('Should return 200 on update property success', async () => {
+      const { accessToken, id } = await mockAccessToken()
+      const addPropertyParams = mockAddPropertyParams()
+      const res = await propertyCollection.insertOne({
+        ...addPropertyParams,
+        ownerId: id
+      })
+      await request(app)
+        .put(`/api/owners/properties/${res.ops[0]._id}`)
+        .set('x-access-token', accessToken)
+        .send({
+          type: 'any_type',
+          availableTo: 'any_available_to',
+          price: 0,
+          condominium: 0,
+          iptu: 0,
+          cep: '69305-380',
+          state: 'any_state',
+          city: 'any_city',
+          neighborhood: 'any_neighborhood',
+          number: 'any_number',
+          street: 'any_street',
+          complement: 'any_complement',
+          description: 'any_description',
+          dimensions: 0,
+          numberOfBedrooms: 0,
+          numberOfBathrooms: 0,
+          numberOfParkingSpaces: 0,
+          images: ['any_image'],
+          additionalInformation: 'any_additional_information',
+          status: 'any_status'
+        })
+        .expect(200)
+    })
+  })
+
   describe('DELETE /owners/properties/:propertyId', () => {
     test('Should return 401 on remove property without accessToken', async () => {
       await request(app)
