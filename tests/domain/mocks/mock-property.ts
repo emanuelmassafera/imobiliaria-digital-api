@@ -1,5 +1,5 @@
 import { PropertyModel } from '@/domain/models'
-import { AddProperty, LoadProperties, LoadPropertyById } from '@/domain/usecases'
+import { AddProperty, LoadProperties, LoadPropertyById, RemoveProperty } from '@/domain/usecases'
 
 import faker from 'faker'
 
@@ -78,4 +78,9 @@ export const mockLoadPropertyByIdParams = (): LoadPropertyById.Params => ({
   propertyId: faker.datatype.uuid(),
   ownerId: faker.datatype.uuid(),
   active: faker.datatype.boolean()
+})
+
+export const mockRemovePropertyParams = (): RemoveProperty.Params => ({
+  propertyId: faker.datatype.uuid(),
+  ownerId: faker.datatype.uuid()
 })

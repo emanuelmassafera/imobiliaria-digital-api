@@ -9,6 +9,7 @@
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-invalid-void-type": "off",
     "import/export": "off"
   }
 }
