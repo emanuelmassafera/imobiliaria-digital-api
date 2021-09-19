@@ -12,7 +12,7 @@ export class AddOwnerSpy implements AddOwner {
 
 export class AuthenticationSpy implements Authentication {
   params: Authentication.Params
-  result = {
+  result: Authentication.Result = {
     accessToken: faker.datatype.uuid(),
     name: faker.name.findName()
   }
@@ -25,7 +25,7 @@ export class AuthenticationSpy implements Authentication {
 
 export class LoadOwnerByTokenSpy implements LoadOwnerByToken {
   accessToken: string
-  result = {
+  result: LoadOwnerByToken.Result = {
     id: faker.datatype.uuid()
   }
 
