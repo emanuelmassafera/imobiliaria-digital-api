@@ -1,4 +1,4 @@
-import { AddProperty, LoadProperties, LoadPropertyById, RemoveProperty } from '@/domain/usecases'
+import { AddProperty, LoadProperties, LoadPropertyById, RemoveProperty, UpdateProperty } from '@/domain/usecases'
 import { mockPropertyModel, mockPropertyModels } from '@/tests/domain/mocks'
 
 export class AddPropertySpy implements AddProperty {
@@ -36,5 +36,15 @@ export class RemovePropertySpy implements RemoveProperty {
 
   async remove (params: RemoveProperty.Params): Promise<RemoveProperty.Result> {
     this.params = params
+  }
+}
+
+export class UpdatePropertySpy implements UpdateProperty {
+  params: UpdateProperty.Params
+  result: UpdateProperty.Result = mockPropertyModel()
+
+  async update (params: UpdateProperty.Params): Promise<UpdateProperty.Result> {
+    this.params = params
+    return this.result
   }
 }
