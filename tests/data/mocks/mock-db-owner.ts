@@ -12,7 +12,7 @@ export class AddOwnerRepositorySpy implements AddOwnerRepository {
 
 export class CheckOwnerByEmailRepositorySpy implements CheckOwnerByEmailRepository {
   email: string
-  result = false
+  result: boolean = false
 
   async checkByEmail (email: string): Promise<boolean> {
     this.email = email
@@ -22,7 +22,7 @@ export class CheckOwnerByEmailRepositorySpy implements CheckOwnerByEmailReposito
 
 export class CheckOwnerByCpfRepositorySpy implements CheckOwnerByCpfRepository {
   cpf: string
-  result = false
+  result: boolean = false
 
   async checkByCpf (cpf: string): Promise<boolean> {
     this.cpf = cpf
@@ -32,7 +32,7 @@ export class CheckOwnerByCpfRepositorySpy implements CheckOwnerByCpfRepository {
 
 export class LoadOwnerByEmailRepositorySpy implements LoadOwnerByEmailRepository {
   email: string
-  result = {
+  result: LoadOwnerByEmailRepository.Result = {
     id: faker.datatype.uuid(),
     name: faker.name.findName(),
     password: faker.internet.password()
@@ -56,7 +56,7 @@ export class UpdateAccessTokenRepositorySpy implements UpdateAccessTokenReposito
 
 export class LoadOwnerByTokenRepositorySpy implements LoadOwnerByTokenRepository {
   accessToken: string
-  result = {
+  result: LoadOwnerByTokenRepository.Result = {
     id: faker.datatype.uuid()
   }
 

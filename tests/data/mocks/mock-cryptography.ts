@@ -4,7 +4,7 @@ import faker from 'faker'
 
 export class HasherSpy implements Hasher {
   plaintext: string
-  digest = faker.datatype.uuid()
+  digest: string = faker.datatype.uuid()
 
   async hash (plaintext: string): Promise<string> {
     this.plaintext = plaintext
@@ -15,7 +15,7 @@ export class HasherSpy implements Hasher {
 export class HashComparerSpy implements HashComparer {
   plaintext: string
   digest: string
-  isValid = true
+  isValid: boolean = true
 
   async compare (plaintext: string, digest: string): Promise<boolean> {
     this.plaintext = plaintext
@@ -26,7 +26,7 @@ export class HashComparerSpy implements HashComparer {
 
 export class EncrypterSpy implements Encrypter {
   plaintext: string
-  ciphertext = faker.datatype.uuid()
+  ciphertext: string = faker.datatype.uuid()
 
   async encrypt (plaintext: string): Promise<string> {
     this.plaintext = plaintext
@@ -36,7 +36,7 @@ export class EncrypterSpy implements Encrypter {
 
 export class DecrypterSpy implements Decrypter {
   ciphertext: string
-  plaintext = { payload: faker.internet.password() }
+  plaintext: DecodedModel = { payload: faker.internet.password() }
 
   async decrypt (ciphertext: string): Promise<DecodedModel> {
     this.ciphertext = ciphertext
